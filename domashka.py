@@ -42,9 +42,9 @@ predmets = {'alg': 'алгебре', 'en1': 'первой группе англ�
 async def start(message):
     user_id = message.from_user.id
     c.execute(f"SELECT id FROM users WHERE id = {user_id}")
-    data = c.fetchone()[0]
+    data = c.fetchone()
 
-    if data is None:
+    if data[0] is None:
         dostup = 0
         name = "Не установлено"
         surname = "Не установлено"
