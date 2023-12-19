@@ -1,7 +1,7 @@
 # homework
 Бот для хранения домашнего задания в Telegram!
 
-Основные библиотеки: aiogram, sqlite3, logging
+Основные библиотеки: aiogram, aiosqlite, logging
 
 # Команды
 - /dz - просмотр д/з(1+ уровень доступа)
