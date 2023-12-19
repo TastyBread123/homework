@@ -1,4 +1,4 @@
-import sqlite3, logging
+import logging
 
 from asyncio import run
 from datetime import datetime
