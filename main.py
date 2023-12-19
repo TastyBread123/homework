@@ -12,10 +12,6 @@ from configs.config import token, logs_group, anti_group_dz
 from configs.lessons_config import lessons
 from utils.utils import get_text_list_lessons_with_code
 
-
-db = sqlite3.connect('domashka.db', check_same_thread=False)
-c = db.cursor()
-
 #Настройки бота
 bot = Bot(token, parse_mode='HTML')
 dp = Dispatcher(disable_fsm=True)
@@ -31,7 +27,8 @@ async def callback_check_dz(call: types.CallbackQuery):
     if dostup is None or dostup < 1: return await call.answer("😢 У вас нет 1 уровня доступа!")
 
     lesson_code = call.data.split('_', maxsplit=1)[1]    
-    data = c.execute(f"SELECT dz, author, time FROM domashka WHERE predmet = '{lesson_code}'").fetchone()
+    data = await db.get_dz(lesson_code)
+
     if data is None or data[0] is None: return await call.answer(f"📔 Домашка по {lessons[lesson_code][1]} отсутствует!", show_alert=True)    
     await call.message.answer(f'📔 Доска д/з по {lessons[lesson_code][1]}\n🕓 Время добавления: {data[2]} ({hlink("автор", data[1])})\n\n📚 Задание:\n{data[0]}', parse_mode='HTML')
     return call.answer()

@@ -132,3 +132,19 @@ class Database:
             await db.execute(f"INSERT INTO logs(user_id, action, result) VALUES(?, ?, ?)", (author_id, f'очистка {lesson_code}', 'успешно'))
             await db.commit()
             return True
+        
+
+    async def get_dz(self, lesson_code: str):
+        """
+        Получить информацию о домашке
+
+        RETURN:
+        :lesson_info - инфа о домашке
+
+        :param lesson_code - код урока
+        """
+
+        async with aiosqlite.connect(self.database_name, check_same_thread=False) as db:
+            data = await db.execute(f"SELECT dz, author, time FROM domashka WHERE predmet = ?", (lesson_code,))
+            data = await data.fetchone()
+            return data
